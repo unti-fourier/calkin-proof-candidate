@@ -1,0 +1,1198 @@
+PUBLIC COPY — UNREVIEWED PROOF CANDIDATE
+Hikaru Awazu（粟津 光）
+Assistant Professor, National Institute of Technology, Hakodate College
+Contact: huhihikaru@gmail.com
+
+未査読・未認定の証明案です。本人が今後、人力で検証予定ですが、検証には時間を要します。
+自動検査で具体的な穴が特定されなかったことは、証明認定を意味しません。
+Lean による形式化は進行中であり、完全な形式検証の完了は主張していません。
+
+Hikaru Awazu plans to verify this argument manually; this will take time.
+Automated checks finding no specific gap do not certify a proof.
+Lean formalization is in progress; no complete formal verification is claimed.
+
+This header supplies publication metadata and status only.
+The V80 mathematical manuscript below is reproduced without alteration.
+Manuscript-only SHA-256: 3a4c02f4cfc974bf6ef918763d3dbfbbe6b25a3188fbf13a3af2b91d15813995
+
+----- BEGIN UNCHANGED V80 MANUSCRIPT -----
+
+THE FIXED CALKIN TENSOR TEST AND A POSITIVE KERNEL CONSTRUCTION
+An unreviewed proof candidate
+
+ABSTRACT
+
+Let Q=B(ell2)/K(ell2) be the Calkin algebra on a fixed separable
+infinite-dimensional Hilbert space. This manuscript proposes a proof
+that a complex C* algebra B is nuclear precisely when the canonical map
+B tensor_max Q -> B tensor_min Q is injective. No unitality, separability,
+sigma-unitality or initial exactness of B is assumed. The argument first
+extracts a finite unitary family and one normal state in a literal corner
+of B**. A cyclic-lamp construction then gives a single completely positive
+moment map defined on the whole Calkin algebra. A Hilbert--Schmidt frame
+estimate supplies its normal source extension. Finally finite normal
+tests select coefficients in B itself, and exactness supplies one ideal
+cut preserving a fixed state. The proposed positive kernel element has
+state value greater than 27/256 and norm at most 1/8.
+
+Status. The main theorem, Propositions G, M and D, and Lemma HS below
+are proposed results, with proofs supplied here. They are not presented as established
+theorems. The established results adopted as inputs are listed separately
+in Section 1. Mathematical correctness of the new arguments remains to be
+independently assessed. All mathematical dependencies used in the proof
+are either stated standard inputs or proved in this manuscript.
+
+CONTENTS
+
+0. Statement, conventions and notation
+1. Standard inputs and exactness from the hypothesis
+2. General input G in one literal corner
+3. The cyclic-lamp moment map M
+4. Transfer D to the original C* algebra
+5. Assembly of the proposed theorem
+Appendix A. The scope of block-ideal annihilation
+References
+
+0. STATEMENT, CONVENTIONS AND NOTATION
+
+Fix H_*=ell2(N), Q_*=B(H_*)/K(H_*). For any complex C* algebra B let
+ chi_B:B tensor_max Q_* -> B tensor_min Q_*
+be the canonical surjective *-homomorphism extending the identity on
+B odot Q_*. The symbol odot denotes the algebraic tensor product.
+
+Main theorem (proposed). For every such B,
+          chi_B is injective if and only if B is nuclear.        (T)
+
+This is the fixed-Calkin tensor test considered here. Injectivity means
+equality of the two completed C* norms, since an injective *-homomorphism
+is isometric. It does not require equality of norms in every individual
+representation. The implication from nuclearity follows from the
+definition of nuclearity. The case B=0 is immediate. We prove the other
+implication for arbitrary nonzero B, using Section 1 to obtain exactness.
+
+All Hilbert-space inner products are linear in the first variable.
+The conjugate C* algebra bar(N) has conjugated scalar multiplication;
+it is not being identified silently with the opposite algebra. In a
+normal standard form of N on H_N, L_N is the faithful left action,
+J_N the conjugation, and
+ r_N(x)=J_N L_N(x*)J_N,  r_N(x)r_N(y)=r_N(yx).
+For a normal state phi, xi_phi is its unit vector in the natural cone.
+A UCP map is unital and completely positive; normality of a positive map
+between von Neumann algebras means preservation of bounded increasing
+positive nets, equivalently ultraweak continuity. A trace called n.s.f.
+is normal, semifinite and faithful. N_* denotes the normal predual,
+whereas N* denotes the full Banach dual. Corners have their relative
+units. Indexed families retain repetitions.
+All strong/ultraweak limits may be nets unless a sequence is specified.
+No target Hilbert space or predual is assumed separable.
+
+Notation table
+ B, V=B**, kappa       original C* algebra, canonical bidual, inclusion
+ H_*, Q_*, chi_B       fixed separable Hilbert space, Calkin, canonical map
+ M=p_M V p_M         sigma-finite noninjective type part in Section 2
+ C0, C2, j0, j1        modular core, double product, canonical inclusions
+ E0, E1, Xi           two bounded returns and normal onto C2->M isomorphism
+ F0, F, i, E, tau     finite algebras, embedding, return, finite trace state
+ e, N=eVe             final literal target corner and its relative unit
+ chi, psi, phi        faithful modular state; invariant witness; normal state
+ v_j, q, r            target unitaries, paired min norm, cone correlation
+ G=F(s,t), Gamma      free group and cyclic-lamp semidirect-product group
+ Omega, R             uniform lamp spectrum and L-infinity(Omega)
+ C_f, C, D            C*(Gamma), C*_r(Gamma), L(Gamma)
+ p:C_f->C             full-to-reduced quotient (local symbol in Section 3)
+ w_g, sigma_g         source group unitaries and lamp-coordinate action
+ B_g, U_j, W_g        N-valued cocycle; r_N(v_j*); r_N(B_g*)
+ T0, Phi, T, theta    algebraic compression; full, reduced, normal source maps
+ P, I, U=P/I          product of matrix blocks, trace ideal, C* quotient
+ q_tau, sigma_C       P->U quotient and faithful reduced-source copy
+ H_c, Q_c, j          block Hilbert space, its Calkin, block *-map P->Q_c
+ F_U, F_Q, T_v        trace-GNS return, whole-Calkin return, moment map
+ alpha, Psi           normal corner compression and one fixed tensor state
+ y, t0, u0            same finite coefficients in B odot C,P,Q_c
+ K0, h, c=1-h         finite ideal correction and its positive outer cut
+ u, k                 cut selfadjoint tensor and positive max-kernel element
+Local scalar letters and spectral projections are defined where used.
+In particular D_dual below is a duality isomorphism, distinct from D=L(Gamma).
+
+The proposed proof has three components. G supplies one corner, one tuple and
+one normal state from nonnuclearity. M supplies one state-independent
+moment map, a faithful source copy and exact block partitions from that
+tuple. D uses these same objects to construct the nonzero positive
+kernel element over original B. These components are proved in Sections
+2,3,4, respectively; none is invoked merely as an additional hypothesis
+in the final assembly. Section 5 records their order of use.
+
+1. STANDARD INPUTS AND EXACTNESS FROM THE HYPOTHESIS
+
+Recall that exactness of B means that tensoring every C* short exact
+sequence with B in the minimal norm preserves exactness. Nuclearity
+means equality of minimal and maximal tensor norms with every C* algebra.
+We adopt the following established results at their stated scopes.
+ (E) For every C* algebra B, exactness is equivalent to exactness of
+     0->B min K(H_*)->B min B(H_*)->B min Q_*->0.
+     Kirchberg [1], Theorem 1.1(ii),(iii).
+ (B) B nuclear iff its canonical bidual B** is injective, also for
+     nonunital and nonseparable B. Choi--Effros [2]. An arbitrary weak
+     closure of a faithful C* representation is not substituted for B**.
+ (H) A von Neumann algebra F0 is finite and injective iff for every
+     finite unitary family w_1,...,w_k and nonzero central projection p,
+     ||sum_j p w_j tensor overline(p w_j)||min=k.
+     Haagerup [3], Lemma 2.2. We use this only when F0 is already finite.
+ (S) Standard forms exist on arbitrary von Neumann algebras. Every
+     normal positive functional has a unique natural-cone vector, with
+     ||xi_phi-xi_psi||^2<=||phi-psi||. The standard implementation
+     L(u)r(u*) of an inner automorphism preserves that cone.
+     Haagerup [4], Theorem 1.6 and Lemma 2.10.
+ (C) For a sigma-finite M and faithful normal state chi, let
+     C0=M crossed_(sigma^chi) R, beta its dual action, C2=C0 crossed_beta R.
+     C0 has a normal semifinite faithful trace, and C2 is normally,
+     faithfully and onto *-isomorphic to M spatial B(L2(R)), with normal
+     inverse. No factor or separable-H assumption is imposed. [5],[6].
+
+We also use ordinary C*/von Neumann theory: Arveson extension into B(H),
+CP Schwarz, GNS and continuous functional calculus, normal supports,
+the semifinite/typeIII central split, semifinite trace theory and proper
+infinite halving; faithful min inclusions and maximal commuting
+representations; source standard left/right commutants and Kaplansky
+density; Hahn--Banach, Goldstine and weak* compactness. In particular
+no extension into an arbitrary noninjective commutant is assumed.
+Arveson extension here concerns a UCP map from a unital operator system
+into B(H), with arbitrary H. Kaplansky density concerns the bounded
+unit ball and positive matrix cones of a C* algebra in its von Neumann
+closure. Goldstine concerns the weak* density of Ball(B) in Ball(B**)
+for the specified predual B*. These applications are spelled out below.
+
+Exactness gateway. Maximal tensor products preserve short exact rows
+for an IDEAL J in A. For isometry B max J->B max A, extend a commuting
+representation of J to A on its essential J-space by an approximate
+identity; it still commutes with B. The orthogonal complement contributes
+zero to B odot J. A quotient representation annihilating B max J factors
+through A/J on the joint essential space. These two universal properties
+give the maximal exact row; no arbitrary-subalgebra max inclusion is used.
+
+Every canonical max-to-min map is onto: its range is closed and contains
+the dense algebraic tensor product. Assume chi_B injective. Lift an
+element t of the kernel of the minimal
+B(H_*) quotient row through B max B(H_*)->B min B(H_*). The maximal
+quotient image of the lift has zero minimal image, hence is zero by
+chi_B's injectivity. Maximal ideal exactness puts the lift in B max K;
+its minimal image is in B min K. The reverse inclusion is immediate,
+so the minimal test row is exact. Input(E) gives exactness of original B,
+with no separability or unitization
+step. This argument does not first assert the hypothesis for a subalgebra
+or an amplification of B.
+
+2. GENERAL INPUT G IN ONE LITERAL CORNER
+
+Proposition G (proposed).
+Let V be a noninjective von Neumann algebra, with no separability or
+sigma-finiteness assumption. Given 0<q0<1 and epsilon>0, there are:
+ a nonzero e in Proj(V), the literal algebra N=eVe;
+ a finite F with faithful normal tracial state tau;
+ a normal faithful relative-unital *-embedding i:F->N;
+ a relative UCP return E:N->F, Ei=id_F, not assumed normal;
+ a finite indexed tuple v_1,...,v_n in i(U(F));
+ one normal state phi on N, not necessarily faithful,
+such that
+ q=||n^-1 sum_j v_j tensor bar(v_j)||_(N min bar(N))<=q0,
+ max_j ||phi composed Ad(v_j*)-phi||_(N_*)<epsilon.          (G)
+Here bar(N) is the conjugate C* algebra; q is an operator norm, not its
+square. With the standard form L_N,J_N and r_N(x)=J_N L_N(x*)J_N,
+ r=n^-1 sum_j Re<L_N(v_j)r_N(v_j*)xi_phi,xi_phi>
+   >1-epsilon/2.                                         (G-CORR)
+Thus q0=1/4 and epsilon=1/32 give q<1/3 and r>63/64 on the same data.
+
+Proof. Adopt the standard inputs(B),(H),(S),(C) from Section 1.
+
+2.1 Localization without a separable representation
+
+Represent V faithfully normally as Q subset B(K), allowing arbitrary K.
+Injectivity is equivalent to a UCP map B(K)->Q fixing Q. The forward
+implication extends id_Q; the converse extends a map into B(K) and then
+composes. This also proves independence of the faithful normal copy.
+The point-ultraweak compact space UCP(B(K),Q) is nonempty: it contains
+X->varpi(X)1. Linearity, unit and all matrix-positive constraints are
+closed in the product of weak* compact coordinate balls. Noninjectivity
+makes the closed constraints nu(T(x))=nu(x), for all selfadjoint
+contractions x in Q and normal states nu, have empty intersection.
+A finite subfamily already has empty intersection. Let s be the support
+of the sum of those finitely many states. Their normalized sum is a
+faithful normal state on sQs. If sQs were injective, a return R_s on
+B(sK) would make T(X)=R_s(sXs)+varpi(X)(1-s) a UCP map satisfying all
+selected tests, since nu(sxs)=nu(x). Contradiction. Pull back s to V.
+This is a literal sigma-finite noninjective corner, without selecting
+factor fibers or a common exceptional null set. Split its semifinite
+and typeIII central parts. One is noninjective: returns for both parts
+would give a return for their direct sum. Call that part M=p_M V p_M.
+
+Another compactness fact will be used twice. If p_a increases strongly
+to1 in Q and every p_a Q p_a is injective, the maps
+ T_a(X)=R_a(p_a X p_a)+varpi(X)(1-p_a)
+have a cofinal point-ultraweak cluster map fixing Q, since on x in Q
+their values are p_a x p_a+varpi(x)(1-p_a)->x. Thus Q is injective.
+For an n.s.f. trace, finite-trace projections are directed under joins
+(Tr(p join q)<=Tr(p)+Tr(q)) and have supremum1 by semifiniteness.
+Therefore a noninjective semifinite algebra has a noninjective
+finite-trace corner. No sequence is substituted for this general net.
+
+If M is semifinite, choose f with 0<Tr(f)<infinity and fMf noninjective.
+Take F0=N0=fVf, e0=f, i0=R0=id and tau0=Tr|F0/Tr(f). Continue with Section 2.4.
+
+2.2 TypeIII: exact copies, bounded returns and a literal target
+
+Fix a faithful normal chi of M for its modular action only. Put
+ j0:M->C0, j1:C0->C2, the normal faithful canonical unital embeddings;
+ beta=the first dual action, gamma=the second dual action.
+Their fixed algebras are j0(M) and j1(C0), respectively. For clarity,
+this fixed-copy identification needs no separable Hilbert space: in the
+regular gauge of a spatially implemented R-action alpha on Q, the
+product is {Q tensor1, V_t tensor lambda_t}'', lambda_t f(s)=f(s-t).
+The dual is Ad(1 tensor m_h), m_h f(s)=exp(ihs)f(s). Every product
+element commutes with scalar translations. A dual-fixed element also
+commutes with scalar modulations, hence equals x tensor1. For y in Q',
+the multiplier Y_y(s)=V_s y V_s* commutes with both generating families.
+Thus [x,V_s y V_s*] has zero coefficients almost everywhere for each
+fixed vector pair. Those coefficients are continuous; evaluate at0 to
+obtain [x,y]=0. Hence x in Q. Standard form gives the required strongly
+continuous spatial implementation for each action.
+
+For eta=beta or gamma, define the normal UCP averages
+ A_L^eta(X)=(2L)^-1 integral_[-L,L] eta_t(X)dt.
+The ultraweak integral is normal: predual orbits are norm-continuous,
+as follows from strong unitary implementation and trace-class
+approximation in a normal representation. Moreover
+ ||eta_h(A_L^eta(X))-A_L^eta(X)||<=|h| ||X||/L.
+A cofinal point-ultraweak cluster limit P_eta is UCP into the fixed
+copy and fixes that entire copy. Its normality is not inferred. Set
+ E0=j0^-1 P_beta:C0->M, E0 j0=id_M;
+ E1=j1^-1 P_gamma:C2->C0, E1 j1=id_C0.                (RET)
+For every a,b in C0 and Y in C2, the multiplicative domain gives
+ E1(j1(a)Yj1(b))=a E1(Y)b.                           (MOD)
+E0 is used here only to reflect noninjectivity: if C0 were injective,
+extension into C0 followed by E0 would make M injective. Thus C0 is
+noninjective. This is a retract argument, not inheritance by arbitrary
+subalgebras.
+
+Let D_dual:C2->M spatial B(L2(R)) be the normal onto duality isomorphism.
+In sigma-finite typeIII M, halve its unit into two projections equivalent
+to it, retain the half of smaller chi-mass, and repeat. Remainder masses
+tend to0; faithfulness/normality of chi makes their meet zero. The removed
+pieces are orthogonal and equivalent to1_M, with sum1_M. Choose isometries
+s_l with these ranges. U(eta tensor delta_l)=s_l eta is a unitary
+K_M tensor ell2 -> K_M. For A_M(X)=UXU*,
+ A_M(x tensor e_ij)=s_i x s_j* in M.
+Finite matrix compressions and strong closure give its range in M.
+Conversely U* x U has entries s_i* x s_j in M, and the same compression
+argument puts it in M spatial B(ell2). Thus A_M is normal and onto,
+with normal inverse. A fixed unitary
+L2(R)->ell2 and D_dual now give a normal onto *-isomorphism Xi:C2->M.
+It need not fix j1j0(M); it does map 1_C2 to1_M=p_M.
+
+2.3 A common finite corner and the second return
+
+The following refinement also distinguishes the two returns on the same
+finite corner. It is available within every selected typeIII core.
+Write its implementing group ell_t=exp(it A), beta_s(ell_t)=exp(ist)ell_t,
+and p_n=1_[-n,n](A). The p_n increase strongly to1 but need not be finite.
+Spectral calculus and the length of an interval intersection give
+ A_L^beta(p_n)=g_(n,L)(A),
+ g_(n,L)(a)=length([-L,L] intersect [-n-a,n-a])/(2L),
+ 0<=A_L^beta(p_n)<=min(1,n/L)1; hence E0(p_n)=0.       (BAND)
+Section 2.1 implies some p_N C0 p_N is noninjective. The restricted core
+trace is n.s.f. there, so its finite-trace exhaustion supplies
+ f<=p_N, 0<Tr(f)<infinity, F0=fC0f noninjective.
+Since p_n increases to1 but E0(p_n)=0, E0 is nonnormal. Positivity
+also gives E0|F0=0. Set tau0=Tr|F0/Tr(f) and
+ e0=Xi(j1(f)), N0=e0Ve0=e0Me0,
+ i0:F0->N0, i0(a)=Xi(j1(a)),
+ R0:N0->F0, R0(X)=E1(Xi^-1(X)).                     (CORNER)
+Onto-ness, not merely faithfulness, proves
+ Xi^-1(N0)=j1(f) C2 j1(f).
+Thus (MOD) proves R0(X) in F0, R0(e0)=f, R0 i0=id_F0.
+i0 is normal faithful, sends unit f to e0, and sends each projection
+of F0 to a projection of N0. R0 is UCP relative to these units; no
+normality is claimed. f is finite in C0, whereas its nonzero image e0
+is a typeIII projection in M. Finiteness is relative to the ambient
+algebra and was not required to pass to M.
+
+The comparison uses EXACTLY this f and these maps:
+ E0(f)=0, but E1(j1(f))=f;
+ Bad0=E0 E1 Xi^-1:N0->M is identically zero;
+ R0=E1 Xi^-1:N0->F0 is relative unital.                (TEST)
+The shorter E0 Xi^-1 is ill-typed (C2 versus C0). The type-correct
+Bad0 fails already at Bad0(e0)=0 and cannot be normalized to a state.
+There is no incompatibility: beta moves the core elements while gamma
+fixes all of j1(C0). E0 and E1 have different domains and fixed copies.
+
+2.4 One central cut and internal powers
+
+Apply input(H) to finite noninjective F0. There are w_j in U(F0) and a
+nonzero p in Proj(Z(F0)) with u_j=pw_j in F=pF0p and
+ a=||k^-1 sum_j u_j tensor bar(u_j)||_(F min bar(F))<1.
+Faithful corner inclusions preserve the min norm used in input(H). Define
+ e=i0(p), N=eVe=eN0e, i=i0|F, E=R0|N, tau=tau0|F/tau0(p).
+The projection p need not be central in C0; e need not be central in
+N0 or V. Nevertheless the fixed-subalgebra module rule gives
+ E:N->F, E(e)=p, Ei=id_F,
+ E(i(a)X i(b))=a E(X)b for a,b in F and all X in N.    (G-CUT)
+In the semifinite case these formulas hold with the identity return.
+In the typeIII case E0(p)=0 but E(e)=p; (TEST) survives this same cut.
+If psi0=tau0 R0, then psi=tau E=psi0|N/psi0(e), psi0(e)=tau0(p)>0.
+This is the one normalized restriction. After it, e,N,F,i,E,tau,psi
+remain fixed. For every w in U(F), traciality and (G-CUT) give
+ psi(i(w)*X i(w))=psi(X), all X in N.                 (INV)
+
+Put z_j=i(u_j), d=k^-1 sum z_j tensor bar(z_j). Normal faithfulness of
+i implies faithful C* inclusion, so ||d||min=a. Choose m>=1 with
+a^(2m)<=q0. Keep all indexed words, including repeated values,
+ v_J=z_j1* z_j2 ... z_j(2m-1)* z_j(2m), n=k^(2m).
+Their paired average is exactly (d*d)^m, whose norm is a^(2m), because
+d*d is positive. No tensor power of N, matrix amplification or new
+corner is introduced. Every word lies in i(F), so (INV) holds for it.
+The return is used multiplicatively only on its fixed embedded algebra.
+The whole final list and its length are now fixed, before selecting phi.
+
+2.5 One normal state from finite defects
+
+Let alpha_j(X)=v_j*Xv_j. These are normal automorphisms of N. The set
+ C={ (phi composed alpha_j-phi)_j : phi a normal state of N }
+is convex in (N_*^h)^n, with maximum norm and real dual (N^sa)^n.
+If0 is outside its norm closure, strict separation supplies H_j=H_j*
+and b>0 with phi(H)>=b for every normal state phi, where
+ H=sum_j(v_j*H_jv_j-H_j).
+Normal states detect order, hence H>=be. But the state psi in the full
+dual N* has psi(H)=0 by (INV), contradicting psi(H)>=b. Consequently
+one normal phi makes every defect <epsilon. This needs invariance on
+all N, not just on i(F). It assumes neither normality of psi nor norm
+approximation of psi by normal states. It asserts neither exact
+invariance of phi nor existence of a normal invariant limiting state.
+
+For completeness this distinction is forced in the actual typeIII
+construction. With second implementers exp(it Ahat), put
+Q_l=1_[-l,l](Ahat) in C2. The same band calculation gives E1(Q_l)=0.
+The positive contractions X_l=Xi(j1(p)Q_l j1(p)) increase strongly to e;
+they need not be projections. Equation(MOD) gives E(X_l)=0. Thus
+psi(X_l)=0 but every normal phi has phi(X_l)->1. Testing 2X_l-e gives
+||phi-psi||_(N*)=2. In particular E is not normal in this branch.
+Finite predual defect approximation and this distance2 assertion have
+different quantifiers and are consistent. No cone vector is used for psi.
+
+For the selected normal phi, W_j=L_N(v_j)r_N(v_j*) has
+W_j*L_N(X)W_j=L_N(v_j*Xv_j), and preserves the natural cone. Input(S) gives
+ 2(1-Re<W_j xi_phi,xi_phi>)=||W_j xi_phi-xi_phi||^2
+ <=||phi composed alpha_j-phi||<epsilon,
+which proves the correlation assertion (G-CORR) of Proposition G.
+Nonfaithfulness triggers no support cut, state mixture,
+or new modular core. chi, tau, psi and phi have distinct roles throughout.
+
+2.6 The canonical bidual and nonunital B
+
+For nonnuclear B, use input(B) with V=B**. Every projection chosen above is
+in V; Xi absorbs the typeIII amplification before the final e and phi
+are selected. Normal compression c_e:V->eVe, c_e(X)=eXe, sends1_V to e
+and fixes each projection below e, but is not generally multiplicative.
+phi_V=phi c_e is normal on V. Its restriction to a nonunital B has norm1:
+the positive contractive approximate-identity net converges strongly
+to1_V. This does not claim v_j in B or perform the later transfer D.
+
+Quantifier order: V -> one sigma-finite noninjective M -> core/copies/
+returns and onto Xi if needed -> finite-trace noninjective F0 and N0 ->
+one central p and fixed F,N,i,E,tau,psi -> one full word list -> one phi.
+The two returns can be fixed before f; (BAND) holds for every cluster
+choice of E0, and E1 fixes every core element before any f is selected.
+No normality of a return, centrality in the ambient target, separable
+representation, or state on a leftover amplification is an input.
+
+This proves Proposition G.
+
+3. THE CYCLIC-LAMP MOMENT MAP M
+
+Proposition M (proposed, state-independent moment bridge). Let N be any von Neumann
+algebra in standard form and let v_1,...,v_n be relative unitaries with
+ q=||n^-1 sum_j v_j tensor bar(v_j)||_(N min bar(N))<1/3, n>=1.
+Put G=F(s,t), Gamma=(Z/(n^2))^(G) semidirect G, with finite-support
+lamps, C=C*_r(Gamma), D=L(Gamma). Identify each cyclic lamp's n^2
+spectral atoms with pairs in {0,...,n-1}^2; partition labels j run from1
+to n. Its row and column partitions
+at h are p_(h,s,j),p_(h,t,j); let d_(u,j)=w_u p_(1,u,j), u=s,t.
+Fix any one countable sequence of group homomorphisms rho_l:Gamma->U(d_l)
+whose normalized traces tend to the regular Gamma trace, and one
+free ultrafilter omega. Set
+ P=product_l M_(d_l), I={b:lim_omega tr_l(b_l*b_l)=0}, U=P/I,
+ H_c=direct_sum_l C^(d_l), Q_c=B(H_c)/K(H_c), q_tau:P->U the quotient.
+Here j:P->Q_c is block-diagonal inclusion followed by the Calkin quotient.
+Let S_u and P_(u,j) be the model shifts and lamp partitions and put
+b_(u,j)=S_u P_(u,j). The shifts are unitaries and the P_(u,j) form
+exact orthogonal partitions in P. There is a faithful unital embedding
+ sigma_C:C->U, sigma_C(d_(u,j))=q_tau(b_(u,j)),
+and there is one UCP map
+ T_v:Q_c->L_N(N)'
+such that, simultaneously,
+ T_v(j(b_(u,j)))=r_N(v_j*)/n,   T_v(j(i))=0 for every i in I.       (M)
+No target state, original B, or later ideal cut is involved in choosing
+this map. It is not asserted multiplicative, normally lifted to B(H_c),
+or onto the target commutant. Its specified values, not just range
+containment, are essential. The proof below supplies such a sequence
+and proves the conclusion for
+any one fixed sequence satisfying the stated trace condition.
+
+Proof.
+
+3.1 The source group and its cocycle.
+
+The lamp group consists of finite-support functions a:G->Z/(n^2).
+With (g.b)(h)=b(g^-1 h), its semidirect product law and inverse are
+ (a,g)(b,h)=(a+g.b,gh), (a,g)^-1=(-g^-1.a,g^-1).
+The Fourier dual of the lamp group is
+Omega=({0,...,n-1}^2)^G with uniform product measure. Put R=L-infinity(Omega). At site h, p_(h,s,j) and p_(h,t,j)
+are the indicators of row j-1 and column j-1. The cyclic character has
+value exp(2 pi i (n a+b)/n^2) on the pair(a,b). Thus the lamp is the
+original cyclic group of order n^2, not the group C_n times C_n.
+Write sigma_g p_(h,u,j)=p_(gh,u,j), w_g a w_g*=sigma_g(a). Then
+ D=R crossed_regular G=L(Gamma), A=C[Gamma] consists of finite sums
+ x=sum_g a_g w_g with finite cylinder a_g, and C=C*_r(Gamma).
+Here (a w_g)(b w_h)=a sigma_g(b)w_gh and
+(a w_g)*=sigma_(g^-1)(a*)w_(g^-1). Its faithful regular trace satisfies
+tau_D(a w_g)=0 for g!=1 and tau_D(a)=integral a dmu; thus
+||x||2^2=sum_g||a_g||2^2. Finite cyclic characters form the exact
+regular group orthonormal basis, not merely an approximate family.
+
+For reduced g=u_1^eps1 ... u_l^epsl, let g_i be its prefixes, g_0=1.
+Edge i has key(g_i,u_i) if eps_i=+1 and key(g_(i-1),u_i) if eps_i=-1.
+Key(h,u) denotes the unoriented edge h u^-1 ->h in either direction.
+Put
+ Q_(g,J)=product_i p_(key_i,j_i),
+ V_(g,J)=v_j1^eps1 ... v_jl^epsl, B_g=sum_J Q_(g,J) tensor V_(g,J).
+These are finite cylinder functions with unitary values in N. Reversing
+an edge uses the same partition, not a fresh label. On an adjacent
+backtrack the two projections force equal labels, and adjacent vv* or
+v*v cancels without moving other factors. Translation sends(h,u) to
+(gh,u). Repeated adjacent cancellation therefore proves for all words
+ B_gh=B_g sigma_g(B_h),
+ B_(g^-1 h)=sigma_(g^-1)(B_g* B_h).                    (COC)
+This includes concatenations with an arbitrarily long cancellation.
+
+On L2(R) let L_R(a) be left multiplication and r_R(a) right
+multiplication; they coincide because R is abelian. The unitary S_g is
+specified by S_g hat(a)=hat(sigma_g(a)). On H_raw=L2(R) tensor H_N,
+put CalR=r_R tensor r_N, a linear anti-representation on the finite
+R-valued tensor sums used here, and define
+ Pi_g=CalR(B_g*)(S_g tensor1), J0 eta=1 tensor eta.
+Anti-multiplication and COC give Pi_g Pi_h=Pi_gh. Covariance with L_R
+then gives a group *-representation pi_alg(a w_g)=L_R(a)Pi_g and hence
+pi_f of the full C_f=C*(Gamma). Its UCP compression Phi=J0*pi_f(.)J0 has
+range in L_N(N)' and on A is
+ T0(a w_g)=integral a(omega) r_N(B_g(omega)*) dmu
+          =sum_J tau_R(a Q_(g,J)) r_N(V_(g,J)*).        (FWD)
+The integral is a finite sum; no measurability of nonseparable operator
+spaces is assumed. For d_(u,j)=w_u p_(1,u,j)=p_(u,u,j)w_u it gives
+                         T0(d_(u,j))=r_N(v_j*)/n.    (MOM)
+
+3.2 Positivity at every matrix degree. If x=a w_g,y=b w_h, then
+x*y=sigma_(g^-1)(a* b) w_(g^-1 h). Using COC and invariance of mu,
+ T0(x*y)=integral overline(a)b r_N(B_h* B_g) dmu
+         =integral A_x* A_y dmu, A_x=a r_N(B_g*).      (GRAM)
+The matrix-entry order is B_h* B_g because r_N is anti-multiplicative.
+For arbitrary rectangular Z=[z_li] with z_li=sum_g a_(li,g)w_g put
+F_li=sum_g a_(li,g) r_N(B_g*). Then for every finite r,k,
+ T0^(k)(Z*Z)=integral F*F,
+ <T0^(k)(Z*Z)eta,eta>=sum_l integral||sum_i F_li eta_i||^2>=0. (CP-A)
+Choose one finite set S of sites containing all coefficients' lamp
+supports and all words' edge keys. The integral is precisely
+           n^(-2|S|) sum_(omega_S) F(omega_S)*F(omega_S).
+Each site receives one pair of labels across every row, column and word.
+Shared edges share labels; refining S just sums unused probabilities to 1.
+Thus all matrix sizes concern the same map, with every cross term kept.
+This proves algebraic matrix-square positivity and is compatible with
+the full compression Phi. It does not by itself prove reduced positivity
+or normality; those are the next two steps.
+
+3.3 A uniform Hilbert--Schmidt frame estimate
+
+Lemma HS (proposed Hilbert--Schmidt frame estimate).
+
+Let H be a nonzero complex Hilbert space, with no separability hypothesis,
+and U_1,...,U_n unitaries, n>=1, with repetitions allowed. Inner products are
+linear in the first variable; |eta><zeta| sends x to <x,zeta>eta. On
+S2(H), the ambient Hilbert-Schmidt space, define
+ P_+(X)=n^-1 sum_j U_j X U_j*,
+ P_-(X)=n^-1 sum_j U_j* X U_j.
+Assume q=||P_+||_(S2->S2)<1/3 and set C_q^2=(1+q)/(1-3q).
+P_-=P_+* on S2, so its norm is also q. These are averages of unitary
+conjugations ON S2; each has norm1 on B(H). No state or trace on a target
+von Neumann algebra is assumed. The trace defining S2 is the ambient one.
+
+Let G=F(s,t), Omega=({0,...,n-1}^2)^G with uniform product probability.
+At a site h let (R_h,C_h) be its coordinate pair. This is the spectrum
+of one cyclic lamp of order n^2, labeled by
+ zeta_h=exp(2pi i(n R_h+C_h)/n^2).
+The characters chi_alpha=product_h zeta_h^(alpha(h)), for finite-support
+alpha:G->Z/(n^2), are its original cyclic Fourier basis. Relabeling the
+uniform atom by a pair does not change the underlying cyclic lamp group.
+
+For a reduced g=u_1^eps1 ... u_l^epsl, let g_i be its successive prefixes,
+g_0=e, u_i in{s,t}, eps_i in{+1,-1}. Its i-th slot is (h_i,u_i), where
+ h_i=g_i if eps_i=+1, h_i=g_(i-1) if eps_i=-1.
+The key(h,u) denotes the unoriented edge h u^-1--h, with that fixed
+positive orientation. Use j_i=1+R_(h_i) for u_i=s and j_i=1+C_(h_i)
+for u_i=t, and define
+ W_g=U_(j_1)^eps1 ... U_(j_l)^epsl, W_e=I.
+All words use the same Omega. Reversing an edge reads the same slot and
+uses the adjoint. Common edges and prefixes across words share labels.
+
+Let x=sum_g a_g w_g be a finite sum with arbitrary complex cylinder
+functions a_g. These are precisely the finite group-algebra sums for
+Gamma=C_(n^2)^(G) semidirect G. For its regular trace,
+ ||x||2^2=sum_g ||a_g||_(L2(Omega))^2.
+Define T0(x)=sum_g E[a_g W_g], a finite sum of bounded operators. Then
+ for every such x and every eta in H,
+ ||T0(x)eta||^2<=C_q^2||x||2^2||eta||^2,                     (HS1)
+ and therefore ||T0(x)||op<=C_q||x||2.                       (HS2)
+The same constant works for all eta, including choices depending on x.
+T0 has one bounded linear extension L2(L(Gamma))->B(H). This assertion
+places no order or completely positive map structure on the Hilbert space L2.
+
+Proof.
+
+3.3.1 The joint law on one reduced path
+
+A reduced path in the free Cayley tree is simple: equality of two prefix
+vertices would make a nonempty reduced subword equal to the identity.
+An edge-head h_i is one endpoint of the i-th edge. Two heads can coincide
+only at a common vertex of consecutive edges. Such a coincidence occurs
+exactly for a positive then negative step. Their generators must differ,
+otherwise they cancel. Thus the repeated site contributes its row once
+and column once. Positive-positive and negative-negative consecutive
+steps have distinct heads; negative-positive cannot repeat a head without
+a forbidden cancellation. Nonadjacent heads cannot coincide.
+
+If the l slots occupy d sites, prescribing all l labels leaves exactly
+n^(2d-l) atoms among n^(2d) at those sites. Every site is uniform and
+different sites are independent by definition of Omega. The l labels of
+this one path consequently have the full product-uniform law. This is
+joint independence along a path, not only pairwise independence. It does
+not assert independence of labels for two different paths. The reversed
+inverse word is also reduced, so the same argument covers it, in its own
+actual slot order; no independent resampling of its labels is made.
+
+3.3.2 Finite cyclic Fourier identity
+
+Fix eta and g. Let Z_g be the finite set of its used sites, d=|Z_g|,
+N_g=n^(2d), and v_a=W_g(a)eta for a in the finite atom set Omega_(Z_g).
+For each of its N_g original cyclic characters chi define
+ z_(g,chi)=T0(chi w_g)eta=N_g^-1 sum_a chi(a)v_a.
+A character with a nonzero coordinate outside Z_g has zero image, because
+that coordinate is independent and its character has mean zero. For the
+characters on Z_g, exact finite Fourier orthogonality gives
+ sum_chi chi(a)overline(chi(b))=N_g delta_(a,b).
+Expanding each rank-one operator, with all sums finite, proves
+ S_(eta,g):=sum_chi |z_(g,chi)><z_(g,chi)|
+   =N_g^-1 sum_a |v_a><v_a|
+   =E[W_g R_eta W_g*]
+   =P_eps1 ... P_epsl(R_eta), R_eta=|eta><eta|.               (HS3)
+The last equality follows by integrating the innermost label first, using
+Section 3.3.1's full joint law. It is ordered composition; no commutation or
+symmetry of P_+ and P_- is assumed. In particular reverse signs use
+P_-, not P_+, and reversing the word reverses the appropriate order.
+For the empty word, only the trivial lamp character survives and S_(eta,e)=R_eta.
+
+3.3.3 Summability and the positive limit
+
+Since ||R_eta||S2=||eta||^2 and ||P_+||S2=||P_-||S2=q, equation(HS3) yields
+ ||S_(eta,g)||S2<=q^|g| ||eta||^2.                            (HS4)
+Here q is an operator norm of a channel on S2, not its squared norm.
+The frame already contains squared vector coefficients. Consequently
+its norm is bounded by q^l, not by a gratuitous replacement q^(2l).
+There are 4 choices for the first letter and 3 for each later reduced
+letter, so the number of length-l words is4*3^(l-1) for l>=1. Hence
+ sum_g ||S_(eta,g)||S2
+ <=[1+sum_(l>=1)4*3^(l-1)q^l]||eta||^2
+ =[1+4q/(1-3q)]||eta||^2=C_q^2||eta||^2.                    (HS5)
+This is absolute convergence of the WORD-GROUPED series in the Banach
+space S2(H). Its sum S_eta is positive, since finite positive sums converge
+in HS and hence operator norm. Every finite word sum is <=S_eta, and
+ ||S_eta||op<=||S_eta||S2<=C_q^2||eta||^2.                    (HS6)
+The length-tail bound is explicit:
+ ||sum_(|g|>L) S_(eta,g)||op
+ <=4q(3q)^L/(1-3q) ||eta||^2, L a nonnegative integer.                        (HS7)
+There is no exchange of an infinite Bochner integral with a word sum:
+all expectations in(HS3) were finite before(HS5) was used.
+
+Absolute summability in(HS5) does not imply absolute summability of the
+ungrouped rank-one terms. For eta nonzero, unitarity and(HS3) give at each word
+ sum_chi || |z_(g,chi)><z_(g,chi)| ||S2
+   =sum_chi ||z_(g,chi)||^2
+   =Tr(S_(eta,g))=E||W_g eta||^2=||eta||^2.                 (HS8)
+Its sum over g diverges, even when q<1/3. Likewise E||W_g eta||^2 is not
+bounded by q^|g| ||eta||^2 for a nonempty word. Pointwise, W_g is unitary:
+ ||W_g(omega)eta||=||eta||,
+ ||W_g(omega)R_eta W_g(omega)*||S2=||eta||^2.               (HS9)
+Only the norm of the AVERAGED positive frame in(HS4) decays. These identities
+are exact counterexamples to the two false strengthenings, not to(HS1).
+Infinite trace of S_eta is compatible with its finite HS norm.
+
+For clarity, the ungrouped positive rank-one series DOES converge as a
+net of finite subsets in operator norm, without absolute HS convergence.
+After a finite subset includes all active characters of all |g|<=L,
+its missing positive terms are dominated by the full tail in(HS7). Any
+extra retained characters only improve this bound. This uses the finiteness
+of each active Fourier block, positivity and(HS7), not an arbitrary exchange
+of an absolutely convergent double series. Scalar nonnegative sums can
+also be regrouped by Tonelli; they will be bounded explicitly below.
+
+3.3.4 All complex coefficients and mixed Gram terms
+
+For a finite subset F of pairs (g,chi), put z_alpha=z_(g,chi). Every
+partial Fourier block is a positive sub-sum of(HS3). Therefore
+ S_(eta,F)=sum_(alpha in F)|z_alpha><z_alpha|<=S_eta.          (HS10)
+Let A_(eta,F):ell2(F)->H be the complex-linear column operator with these
+columns. Then A_(eta,F)A_(eta,F)*=S_(eta,F), whereas A* A is the full
+mixed Gram matrix. No cross term for shared prefixes, inverse words,
+common lamp coordinates, or equal target outputs has been set to zero.
+For every complex coefficient vector c,
+ ||sum_(alpha in F)c_alpha z_alpha||^2
+ <=||A_(eta,F)||^2 sum_F|c_alpha|^2
+ <=C_q^2||eta||^2 sum_F|c_alpha|^2.                         (HS11)
+All finite characters outside a used word's sites have image zero; their
+coefficients may be retained on the right. After combining repeated
+source group terms, Parseval in the actual cyclic-lamp group basis gives
+sum|c_alpha|^2=||x||2^2. Equation(HS11) is(HS1). Since eta was arbitrary
+with the same bound, taking its unit-sphere supremum proves(HS2).
+
+The scalar Cauchy--Schwarz route has exactly the needed summability:
+ for every zeta in H,
+ sum_alpha |<z_alpha,zeta>|^2=<S_eta zeta,zeta>
+          <=C_q^2||eta||^2||zeta||^2.                      (HS12)
+For finite F the sum equals <S_(eta,F)zeta,zeta>, which is bounded
+by(HS10). The full equality in(HS12) uses the operator-norm convergence
+of that positive finite-subset net to S_eta proved after(HS9). For any c in ell2 of the source
+basis, (HS12) implies
+ sum_alpha |c_alpha <z_alpha,zeta>|
+ <=||c||2 (sum_alpha |<z_alpha,zeta>|^2)^1/2<infinity.        (HS13)
+This scalar absolute convergence does not assert absolute vector or
+operator convergence of the ungrouped source-basis series. Finite-tail
+application of(HS11) gives unconditional vector
+norm convergence, and the uniform estimate(HS2) gives operator-norm
+convergence of T0 applied to L2 partial sums. Thus its completion is one
+well-defined bounded linear map, independent of the enumeration or net
+of finite subsets. No common dense countable subset of H is required.
+
+A useful equivalent two-stage Cauchy--Schwarz check makes the exponent
+explicit. For one word and arbitrary unit eta,zeta, equations(HS3)-(HS4) give
+ E|<W_g eta,zeta>|^2=<S_(eta,g)zeta,zeta><=q^|g|.
+Probability-space Cauchy--Schwarz, applied to a_g and this scalar
+coefficient, therefore gives
+ ||E[a_g W_g]||op<=q^(|g|/2)||a_g||2.                       (HS13a)
+For any L2 family (a_g), sequence-space Cauchy--Schwarz gives
+ sum_g ||E[a_g W_g]||op
+ <=sum_g q^(|g|/2)||a_g||2
+ <=(sum_g q^|g|)^(1/2)(sum_g||a_g||2^2)^(1/2)
+ =C_q (sum_g||a_g||2^2)^(1/2).                             (HS13b)
+For general L2 a_g, E[a_g W_g] is the finite operator sum
+sum_(a in Omega_(Z_g)) W_g(a) integral_(omega|Z_g=a) a_g dmu.
+These scalar integrals exist since L2 is contained in L1 on this probability
+space; (HS13a) follows by L2 density. Thus the WORD-GROUPED
+coefficient series is absolutely operator-norm convergent. This is not
+absolute convergence of the ungrouped Fourier rank-one series in(HS8).
+It requires sum_g q^|g|<infinity, not sum_g q^(|g|/2)<infinity; replacing
+the weighted Cauchy--Schwarz step by the latter requirement would wrongly
+strengthen the sufficient threshold to q<1/9. Both estimates follow from the same averaged frame identity.
+
+3.3.5 Identification with the spatial paired norm
+
+For the standard-form specialization let N act faithfully normally by L
+on H, with conjugation J and r(x)=J L(x*)J. Given v_j in U(N), set
+U_j=r(v_j*)=J L(v_j)J. Define V:H tensor bar(H)->S2(H) by
+V(eta tensor bar(zeta))=|eta><zeta|, and t(X)=J X* J on S2(H).
+Rank-one inner products show that V and t are complex-linear unitaries;
+t sends |eta><zeta| to |J zeta><J eta| and t^2=id. Finite-rank density
+extends these identities even if H is nonseparable. Directly,
+ t(U_j X U_j*)=L(v_j)t(X)L(v_j)*,
+so V^-1 t P_+ t^-1 V=n^-1 sum_j L(v_j) tensor overline(L(v_j)).
+Both spatial representations are faithful, whence
+ q=||P_+||S2=||n^-1 sum_j v_j tensor bar(v_j)||_(N min bar(N)). (HS14)
+The map t is not being composed into T0 as a CP map. This is solely a
+unitary equivalence of Hilbert-space operators, and uses the conjugate
+algebra, not an unannounced opposite-algebra identification.
+
+If phi is ANY normal state on N, its natural-cone vector xi_phi has norm1
+and can be substituted for eta in(HS1). Faithfulness is unnecessary: H,L,J
+remain the standard form of all N, independent of phi. No state-support
+compression or right multiplication on the potentially defective GNS
+quotient of phi is used. In fact(HS1) holds for all other target vectors
+at once, so the estimate has no hidden state-dependent constant.
+This proves Lemma HS. In the construction of Section 3.1, H=H_N and
+U_j=r_N(v_j*) give exactly W_g=r_N(B_g*), with the same slots. Equation
+(HS14) identifies its q with the one in Proposition M. Hence the actual
+compression satisfies ||T0(x)||<=C_q||x||_(2,D), uniformly in every
+target vector. Its positivity is supplied by Section 3.2, separately
+from this norm estimate. No matrix-degree-independent L2 bound is used.
+
+3.4 The completed reduced kernel and one normal UCP extension
+
+Let p:C_f->C be the regular quotient. For x in ker p choose a_m in A
+converging in full norm to x. Then ||a_m||2<=||p(a_m)||->0. Full
+boundedness of Phi and the estimate of Lemma HS give Phi(x)=0. Thus
+T(p(x))=Phi(x) is one
+unital contraction C->L_N(N)'. For positive X in M_k(C), lift sqrt(X)
+to Y in M_k(C_f); then T^(k)(X)=Phi^(k)(Y*Y)>=0. This proves UCP at
+each k without assuming a CP section of the quotient.
+
+Here is the complete extension argument. Since the trace on D is a
+faithful normal state, D is contained in L2(D); A is L2-dense by the
+group basis and norm-dense in C. Complete the one L2-bounded map to
+ Ttilde:L2(D)->B(H_N), ||Ttilde||<=C_q,
+and set theta=Ttilde|D. Norm approximation from A to C also converges
+in L2, so theta agrees with T on C and preserves the unit. Its values
+are in the norm-closed algebra L_N(N)'. For x in Ball(D), a Kaplansky
+net c_alpha in Ball(C) converges strongly to x on source L2(D), hence
+||c_alpha-x||2=||(c_alpha-x)hat(1)||->0. Therefore T(c_alpha) converges
+to theta(x) in operator norm and ||theta(x)||<=1.
+
+For fixed k and X>=0 in M_k(D), take positive Kaplansky approximants
+X_alpha in M_k(C), strongly converging to X. Their entries converge in
+L2, and
+ ||theta^(k)(X)-T^(k)(X_alpha)||
+       <=C_q sum_ij ||X_ij-(X_alpha)_ij||2 ->0.
+Thus theta is CP. Once positive entrywise L2 approximants are given,
+this last implication does not require an additional uniform norm
+bound on them. The bounded unit-ball approximation above served to
+prove contractivity. Matrix k remains fixed during the finite sum.
+
+If 0<=x_alpha increases to x in D, normality of its source trace gives
+ ||x-x_alpha||2^2<=||x|| tau_D(x-x_alpha)->0.
+Consequently theta(x_alpha) increases to theta(x), even in operator
+norm, proving normality. These are nets, with no separability assumed.
+Uniqueness among normal extensions of T follows from weak density of C.
+The moments MOM are unchanged. Normality of the raw pi_f on all H_raw,
+and normality of a later Calkin pullback, have not been inferred.
+
+3.5 Finite group models and the faithful C* copy.
+
+First construct the required sequence. For a nontrivial reduced word
+in F(s,t), assign distinct vertices0,...,m to its path, read in action
+order (rightmost letter first for usual composition of permutations).
+For a positive letter u prescribe its permutation to send the current
+vertex to the next; for a negative letter prescribe the inverse step.
+For each generator these prescriptions are injective partial bijections:
+a conflicting domain or range could occur only at an adjacent inverse
+pair, which reducedness excludes. Complete each partial bijection to a
+permutation of the finite vertex set. The represented word moves0 to m.
+Thus every nontrivial word survives a finite quotient. Intersect the
+finitely many kernels required to separate all words of length<=2l;
+the resulting quotient pi_l:G->G_l is injective on the ball of radius l.
+
+For a finite-support lamp a define
+ (pi_l!a)(hbar)=sum_(pi_l(h)=hbar) a(h) modulo n^2.
+This respects addition and pi_l!(g.a)=pi_l(g).(pi_l!a), so
+ (a,g)->(pi_l!a,pi_l(g))
+is an exact homomorphism onto
+ Gamma_l=(Z/(n^2))^(G_l) semidirect G_l.
+If g!=1 it survives eventually. If g=1 and a!=0, injectivity on a ball
+containing its finite support prevents cancellation of distinct lamp
+sites, so that element also survives eventually. The regular finite
+representations rho_l of Gamma_l have dimension d_l=|Gamma_l| and
+tr_l(rho_l(gamma)) eventually equal delta_(gamma,1) for each fixed gamma.
+They therefore give the required trace-convergent sequence. Relations,
+inverses and repeated words are preserved exactly at every l; the target
+cocycle need not factor through these finite quotients.
+
+Use any models as in M. I is a norm-closed two-sided *-ideal in P, by
+the tracial inequalities ||ab||2,||ba||2<=||a|| ||b||2 and uniform
+operator bounds. The trace tau_P(b)=lim_omega tr_l(b_l) is a tracial
+state of P. Cauchy--Schwarz gives tau_P(i)=0 for i in I, so it descends
+to a trace tau_U on U=P/I. It is faithful: tau_U(x*x)=0 says exactly
+that any representative of x belongs to I.
+Let beta:C_f->P be beta(x)=(rho_l(x))_l, and q_tau:P->U the quotient.
+Explicitly S_u=beta(w_u), P_(u,j)=beta(p_(1,u,j)), and
+b_(u,j)=S_u P_(u,j). Since the p_(1,u,j) are exact finite Fourier
+polynomials forming orthogonal partitions, these are the exact model
+unitaries and projections used in Proposition M.
+The trace limits give tau_U q_tau beta=tau_D p on C_f by norm density.
+The regular trace on C is faithful: a positive element with trace0 has
+square root killing delta_1, hence every basis vector by the commuting
+right regular action. Apply the trace identity to x*x to obtain
+                     ker(q_tau beta)=ker p.
+There is therefore a faithful unital *-homomorphism
+ sigma_C:C->U, sigma_C p=q_tau beta,
+ sigma_C(d_(u,j))=q_tau(b_(u,j)).                        (COPY)
+This establishes the C* norm, not just an L2 identity. It does not infer
+operator norm convergence of finite blocks from trace convergence.
+
+3.6 A trace-GNS return and a map on the whole Calkin algebra.
+
+In the trace GNS
+spaces define the densely specified map W:L2(D)->L2(U,tau_U) on the dense C by
+                       W(chat)=sigma_C(c)^hat.
+Trace preservation makes W an isometry on the completion, with norm1
+on all L2(D). Right multiplication R_U(a) on L2(U,tau_U) is bounded by
+||a|| and has adjoint R_U(a*); the tracial property gives these assertions
+even though U is only a C* algebra. For c in C,
+ W R_D(c)=R_U(sigma_C(c))W, W R_D(c*)=R_U(sigma_C(c*))W.
+Thus W intertwines both right multiplication and its adjoint. For x in U,
+the compression
+W*L_U(x)W commutes with R_D(C), hence R_D(D), since L_U(x) commutes with
+right multiplication and range(W) reduces R_U(sigma_C(C)). The standard
+commutant theorem gives a UNIQUE element F_U(x) in D with
+                   L_D(F_U(x))=W*L_U(x)W.
+Compression at every matrix level proves UCP. The same dense-vector
+calculation gives L_U(sigma_C(c))W=W L_D(c), so F_U(sigma_C(c))=c for c in C.
+No assertion that U is a von Neumann algebra, or that a normal embedding
+D->U has been constructed, is used.
+
+Let q_c:B(H_c)->Q_c be the Calkin quotient and let
+Delta:B(H_c)->P be diagonal block compression. It is UCP and sends
+compacts into the norm-null block ideal c0 subset I: a rank-one block norm
+is ||eta_l||||zeta_l||->0, and finite-rank norm approximation finishes.
+Consequently F_U q_tau Delta kills K(H_c) and defines a UCP map on all
+Q_c, by positive matrix quotient lifts:
+ F_Q(q_c(X))=F_U(q_tau(Delta(X))),
+ F_Q(j(b))=F_U(q_tau(b)) for every b in P.              (ALL-Q)
+Put T_v=theta F_Q. COPY, MOM and ALL-Q give simultaneously every
+specified moment and T_v(j(I))=0, proving M. The same choices of models,
+omega,W,F_U,F_Q and theta serve all moments and every later cut.
+
+Only range containment is needed for theta and T_v. Source surjectivity
+of a return, when separately proved, would not imply target surjectivity.
+Nor is a prescribed reverse assignment d_(u,j)->j(b_(u,j)) assumed
+positive. The faithful copy is in P/I; no UCP lift of it to P or Q_c
+is an input. Normality of theta does not make the pullback of T_v to
+B(H_c) normal. These distinctions prevent strengthening M beyond its proof.
+
+4. TRANSFER D TO THE ORIGINAL C* ALGEBRA
+
+Proposition D (proposed detector). Assumptions and conclusion.
+
+Let B be a nonzero exact C* algebra, possibly nonunital and nonseparable,
+V=B**, and kappa:B->V the canonical inclusion. Assume G has supplied
+a nonzero e in Proj(V), N=eVe in normal standard form L_N,r_N on H_N,
+relative unitaries v_1,...,v_n, and a normal state phi with unit cone
+vector xi such that
+ r=n^-1 sum_j Re<L_N(v_j)r_N(v_j*)xi,xi> >63/64.
+The small-q bound used to obtain M is part of that supplied input; D
+will not assert any small-q bound for its replacement coefficients.
+
+Assume the following fixed M data, including its faithful C* source model.
+In this section T denotes the same T_v and sigma denotes sigma_C of M.
+G=F(s,t), Gamma=(Z/(n^2))^(G) semidirect G, C=C*_r(Gamma).
+The original cyclic lamp at each site has its uniform n-by-n spectral
+table; p_(h,u,j), u=s,t, are row/column projections and
+sigma_g(p_(h,u,j))=p_(gh,u,j). Write d_(u,j)=w_u p_(1,u,j) in C.
+Take P=product_(l>=1) M_(d_l), with positive finite integers d_l and a
+free ultrafilter omega, and I={b in P:lim_omega tr_l(b_l*b_l)=0}.
+Write U=P/I, quotient q_tau:P->U, H_c=direct_sum_l C^(d_l),
+Q_c=B(H_c)/K(H_c), and the block quotient *-map j:P->Q_c.
+In P let S_u be unitaries and let P_(u,1),...,P_(u,n) be orthogonal
+projections summing to1, with b_(u,j)=S_u P_(u,j). Assume
+ sigma:C->U is a faithful *-embedding with sigma(d_(u,j))=q_tau(b_(u,j)),
+ T:Q_c->L_N(N)' is one UCP map satisfying
+ T(j(b_(u,j)))=n^-1 r_N(v_j*),  T(j(i))=0 for every i in I.    (M-IN)
+All these maps and the free ultrafilter are fixed before any coefficient
+in B or ideal cut is chosen. j(I) need not vanish in Q_c. No global
+Stinespring representation is assumed to kill j(I). Normality of the
+lift T composed (B(H_c)->Q_c) and a normal von Neumann embedding of
+the source are not assumed.
+
+The target is one state Psi on E=B tensor_max Q_c and a selfadjoint
+finite tensor u in B odot Q_c with
+ ||u||max<=1, ||u||min<7/8, Psi(u)>251/256.
+It follows that k=(u-7/8)_+ lies in E, has zero canonical min image and
+Psi(k)>27/256. All left coefficients remain in B, even when it lacks a unit.
+
+4.1 One fixed state and its normal left variable
+
+Set alpha:V->B(H_N), alpha(X)=L_N(eXe). This is normal UCP, with
+alpha(1_V)=1_(H_N), and its range commutes with T(Q_c). It is generally
+not a *-representation. We construct the needed commuting dilation
+while retaining the compression as a UCP map.
+On V odot Q_c odot H_N use the sesquilinear form, linear in its first
+variable,
+ <X tensor z tensor eta,Y tensor w tensor zeta>
+     =<alpha(Y*X)T(w*z)eta,zeta>.
+For finite families A=[alpha(X_i*X_j)] and D=[T(z_i*z_j)] are positive
+matrices and each entry of A commutes with each entry of D. Choose
+S=A^(1/2) in the matrix C* algebra generated by alpha(V). Functional
+calculus stays in that matrix algebra, so every entry of S commutes
+with every entry of D. This choice is essential; an arbitrary S with
+S*S=A need not have that property. With D_l=diag_i(S_li),
+ [A_ij D_ij]=sum_l D_l* D D_l>=0.
+This proves positivity, retaining all cross terms; it does not assume
+entries within A commute among themselves. Applying the same argument
+to [alpha(X_i*(||X||^2-X*X)X_j)] proves that left multiplication by X
+on the first factor is bounded by ||X||. The corresponding positive
+matrix for T bounds multiplication on the second factor by ||z||.
+Quotienting the null space and completing gives commuting unital
+*-representations rho:V->B(K), nu:Q_c->B(K), and the isometry
+J eta=[1 tensor1 tensor eta], with
+ J*rho(X)nu(z)J=alpha(X)T(z).                              (COMP)
+Thus J xi defines a state Omega_V on V tensor_max Q_c. No assertion about
+minimal continuity of this product representation is used.
+
+The left representation is normal: on finite sums of the dense vectors
+rho(X_i)nu(z_i)J eta_i, all rho(A)-coefficients are finite sums of
+<alpha(X_j* A X_i)T(z_j* z_i)eta_i,eta_j>, which are normal in A.
+Approximation of arbitrary vectors in norm, using ||rho(A)||<=||A||,
+gives normal coefficients because V_* is norm closed in V*. This uses
+normal alpha and fixed T-values, never normality in the z variable.
+
+Pull Omega_V back through kappa tensor_max id to original B, obtaining
+ Psi(b tensor z)=<L_N(e kappa(b)e)T(z)xi,xi>.             (STATE)
+The pullback map need not be injective. The restriction is a state,
+not merely a substate: for a positive contractive approximate identity
+b_a in B, normality gives Psi(b_a tensor1)->phi(e)=1. Hence its norm is1.
+There is one fixed vector state and commuting dilation throughout.
+Only the left V-variable is called normal; no predual/normality is
+being assigned to the C* algebra Q_c or to the whole maximal C* product.
+
+4.2 Finite normal tests and original-B coefficients
+
+For k=1,...,n define the normal slice in the same state
+ f_k(X)=n^-1<L_N(eXe)r_N(v_k*)xi,xi>,  ||f_k||<=1/n.
+Equivalently it is the Omega_V-slice at j(b_(u,k)) for either u. Its
+normality follows from L_N and compression, since r_N(v_k*)xi is a
+fixed vector. In canonical V=B**, these normal functionals belong to
+the specified predual B*, so Goldstine applies to them.
+
+After fixing Psi, T, all v_j and all these tests, Goldstine says that
+kappa(Ball(B)) is sigma(B**,B*)-dense in Ball(B**). Each v_j has norm1
+in V even though its unit is e. Therefore choose a_j in Ball(B) with
+ |f_k(kappa(a_j)-v_j)|<gamma=1/(256n) for every k and j.   (GOLD)
+Each j is an elementwise choice against one finite common list. For
+example, the inequalities define a weak*-open neighborhood of v_j;
+Goldstine puts a point of kappa(Ball(B)) in it. There are only finitely
+many j, so all choices can be made before forming the tensor below.
+No sequence or metrizability is assumed. The chosen elements belong
+to B itself, not only its unitization. They need not be unitaries,
+supported on e, multiplicative images of v_j, or a completely contractive
+linear interpolation on their span. No products of the a_j are being
+approximated, and no matrix-level or UCP-map approximation is claimed.
+Kaplansky density and local reflexivity are not used in this selection.
+
+Using the same coefficients set
+ y=(1/4)sum_(u=s,t;j)(a_j tensor d_(u,j)+a_j* tensor d_(u,j)*),
+ t0=(1/4)sum_(u,j)(a_j tensor b_(u,j)+a_j* tensor b_(u,j)*),
+ u0=(id_B tensor j)(t0),
+in B odot C, B odot P and B odot Q_c, respectively.
+The expression with v_j instead of kappa(a_j) in Omega_V has value r.
+For each of the 2n nonadjoint terms, M-IN and GOLD bound its state-value
+error by gamma. Adjoint paired terms have conjugate values because
+Omega_V and Psi are positive states. Thus no separate assertion that
+the f_k-values of a_j* approximate v_j* is required. We get
+ |Psi(u0)-r|<(1/4)(2)(2n)gamma=1/256,
+ Psi(u0)>251/256.                                       (LOWER)
+The approximation has preserved specified values of one fixed state,
+not the entire original joint law or a small paired tensor norm for a_j.
+
+4.3 An independent spatial upper bound
+
+Take a faithful nondegenerate representation pi_B of original B and
+the faithful regular crossed-product representation of C on the fibers
+ell2(G,L2(Omega) tensor H_B). On its h fiber define
+ C_u(h)=sum_j L(sigma_(h^-1)(p_(1,u,j))) tensor pi_B(a_j).
+The lamp projections are orthogonal and commute with the coefficient
+operators, so every C_u(h) is a contraction. With lambda_u the left
+shift on G, Z_u=lambda_u C_u represents sum_j a_j tensor d_(u,j).
+At a fiber h, Z_u xi has norm at most ||xi(u^-1h)||, and Z_u* xi has
+norm at most ||xi(uh)||. Hence the norm of sum_u(Z_u+Z_u*) is bounded
+by the scalar adjacency norm of the four-regular tree.
+For completeness, its weight w(h)=3^(-|h|/2) gives row weighted-sum
+ratio 2sqrt(3) off the root and 4/sqrt(3) at the root. Weighted
+Cauchy--Schwarz gives |Af(h)|^2<=2sqrt(3) sum_(k~h)
+w(h)/w(k)|f(k)|^2; summing h and applying the same ratio bound gives
+||A||<=2sqrt(3). The positive weight need not itself lie in ell2.
+Thus in these faithful spatial representations
+ ||y||_(B min C)<=sqrt(3)/2.                            (SOURCE-MIN)
+This holds for every tuple a_j in Ball(B), irrespective of its quality
+of approximation to v_j. It is not weak*-continuity of a tensor norm.
+
+Faithfulness of sigma and injectivity of the min tensor norm give
+ s=||(id_B tensor q_tau)(t0)||_(B min U)
+  =||(id_B tensor sigma)(y)||=||y||min<=sqrt(3)/2.        (QUOT)
+No small min norm for uncut u0 in the Calkin algebra is asserted.
+In contrast, any commuting representations pi_B,nu_P of B and P give
+||sum_j pi_B(a_j)nu_P(P_(u,j))||<=1 by orthogonal blocks. Multiplying
+by nu_P(S_u) preserves the bound, so averaging two contractions and
+their adjoints gives ||t0||_(B max P)<=1 and ||u0||max<=1. (MAX)
+This uses no injectivity of an arbitrary maximal tensor inclusion.
+
+4.4 A finite ideal cut preserving that same state
+
+Set eta=1/256. This is the only use of exactness: for the norm-closed
+two-sided ideal I of P,
+ ker(B min P -> B min U)=closure(B odot I).
+The quotient norm and density therefore supply a finite
+K0=sum_i c_i tensor z_i in B odot I with ||t0-K0||min<s+eta/2.
+To see the finite choice, first approximate the quotient norm by an
+element of the closed kernel and then approximate it by B odot I.
+This is not an appeal to local reflexivity or to a completely bounded
+section of P->U. In particular every c_i is in original B.
+
+Let A0=sum_i||c_i||. If A0=0, K0=0 and take h=0,c=1. Otherwise put
+ Z=sum_i(z_i*z_i+z_i z_i*) in I_+,
+ delta=(eta/A0)^2, h=Z(Z+delta)^-1 in I, c=1-h in P.
+The inverse uses the unit of P, not a unit adjoined to B. Here 0<=c<=1,
+q_tau(c)=1 and ||cZc||<=delta/4 by scalar functional calculus. Since
+z_i*z_i and z_i z_i* are bounded by Z, this yields
+ ||z_i c||,||c z_i||<=sqrt(delta)/2,
+ ||c K0 c||min<=A0 sqrt(delta)/2=eta/2.
+The notation c K0 c means multiplication only in the second factor.
+It is bounded also for nonunital B, as can be checked in every spatial
+or commuting representation; it does not move the first coefficients
+to a unitization. Define the finite selfadjoint tensors
+ t=(1 tensor c)t0(1 tensor c) in B odot P,
+ u=(id_B tensor j)(t) in B odot Q_c.
+Then ||u||max<=1 by MAX and contractive multiplication, and
+ ||u||min<=||t||min<s+eta<=sqrt(3)/2+1/256<7/8.          (CUT)
+The last strict margin follows from (223/256)^2-3/4=577/65536>0.
+
+For every b in P, cbc-b=-hb-bh+hbh is in I. The fixed M-IN identity
+therefore gives T(j(cbc))=T(j(b)) before or after the finite cut was
+chosen. Applying STATE term by term gives
+ Psi(u)=Psi(u0)>251/256 exactly.                        (SAME)
+No new state extension is selected. No multiplicativity of T is used;
+no convergence argument is made in Q_c or through its lift. The
+ideal elements involved lie in P, and only the values on j(P) enter.
+There is no assertion that a whole-Q_c representation annihilates j(I).
+
+4.5 Functional calculus and nonunital B
+
+In E=B tensor_max Q_c define k=(u-7/8)_+ by continuous functional
+calculus. If E is nonunital, do the calculation in its unitization;
+f(t)=(t-7/8)_+ has f(0)=0, so k belongs to E itself. For the canonical
+*-homomorphism chi:E->B tensor_min Q_c, functional calculus and CUT
+give chi(k)=0 exactly. The scalar inequality (t-7/8)_+>=t-7/8 gives
+k>=u-(7/8)1 in the unitization of E. Extend the state unitally to obtain
+ Psi(k)>=Psi(u)-7/8>27/256, and 0<=k with ||k||max<=1/8.
+No functional calculus through a UCP map is asserted. Only u, not k,
+is necessarily an algebraic finite tensor. H_c is a countably infinite
+sum of nonzero finite blocks, so one Hilbert-space unitary identifies
+Q_c with the fixed separable Calkin algebra, leaving original B intact.
+
+4.6 Scope and order of the approximations
+
+Goldstine selects finitely many elements a_j of Ball(B), testing only
+normal functionals in the canonical V variable. It approximates neither
+matrices nor a UCP map nor their multiplication. SOURCE-MIN supplies
+an independent universal contraction bound. Exactness subsequently
+selects a finite element of B odot I for one quotient-norm approximation.
+The fixed state is preserved by an exact all-I identity, not by a
+weak* limit of its right-hand variable. No faithful normal state,
+support cut, local-reflexivity hypothesis, maximal-inclusion isometry,
+or equality of the min and state-evaluating representations is added.
+D is a conditional transfer result under exactly the displayed G/M
+package and exactness of B. Propositions G and M supply that package in
+Sections 2-3, and Section 1
+derives exactness from the original hypothesis. This proves Proposition D.
+
+5. ASSEMBLY OF THE PROPOSED THEOREM
+
+Assume the canonical chi_B is injective for a nonzero B. Section 1 gives
+exactness of this original B. If B were nonnuclear, input(B) would make
+its canonical V=B** noninjective. Proposition G, with q0=1/4 and
+epsilon=1/32, supplies e in V, N=eVe, one indexed unitary tuple v and
+one normal state phi with cone vector xi and q<=1/4,r>63/64. The
+typeIII amplification is absorbed normally and onto before e and phi
+are chosen; no left matrix algebra remains.
+
+Use this same N and tuple in Proposition M. Fix one trace-convergent
+finite source sequence and one free ultrafilter after n is fixed.
+Lemma HS has C_q^2<=5. Section 3.4 therefore constructs one normal UCP
+theta on the finite source D; no target trace or faithful phi is needed.
+Sections 3.5-3.6 construct exact partitions, faithful sigma_C and one
+whole-Q_c moment map T_v. All specified moments and all-I identities
+hold simultaneously, before any original-B coefficient or ideal cut.
+
+Proposition D now fixes alpha and Psi using that same e,phi,xi,T_v.
+Only then are a_j chosen in original Ball(B). Their spatial upper bound
+uses the regular source representation and holds for every contractive
+tuple, whereas their lower bound is measured in the fixed state Psi.
+The faithful copy identifies the quotient norm of that same tensor t0.
+Exactness of B selects one finite ideal correction K0 and c=1-h. The
+identity cbc-b in I, valid for every b in P, preserves Psi exactly.
+Functional calculus in B tensor_max Q_c gives k>=0 with
+ chi(k)=0,  Psi(k)>27/256,  ||k||max<=1/8.
+
+The block Hilbert space H_c is a countably infinite sum of nonzero
+finite-dimensional spaces. Choose a unitary H_c->H_*. Conjugation
+identifies Q_c with Q_* and intertwines both tensor completions and
+their canonical map. It sends k to a nonzero positive element of
+ker chi_B, a contradiction. Thus B is nuclear. Together with the
+immediate nuclear direction this completes the proposed proof of(T).
+
+Dependency table: the following are proved steps, not additional axioms.
+ Step                          Proof location          Standard inputs
+ hypothesis -> exact B         Section 1                (E), maximal ideal row
+ literal sigma-finite corner   Section 2.1              injectivity/compactness
+ finite retract in typeIII     Sections 2.2-2.3         (C), proper infiniteness
+ small q and one normal phi    Sections 2.4-2.5         (H),(S), separation
+ full compression/positivity   Sections 3.1-3.2         full group C* completion
+ uniform operator L2 bound     Section 3.3              spatial min, HS theory
+ one normal source UCP         Section 3.4              Kaplansky, finite trace
+ finite models/faithful copy   Section 3.5              C* GNS and quotient
+ all-Calkin moment map         Section 3.6              source tracial commutant
+ one common tensor state       Section 4.1              commuting representations
+ coefficients in original B   Section 4.2              Goldstine in B**
+ same-tensor min/max bounds    Section 4.3              spatial/commuting norms
+ exact cut and fixed state     Section 4.4              exactness of original B
+ zero min image, nonzero k     Section 4.5              C* functional calculus
+
+G uses no M or D. M requires only the displayed tuple and q, not the
+target state or B. D uses the already fixed G/M outputs. No hypothesis
+is asserted for N, a unitization of B or an amplification of B. Normality
+is used on the source D for theta and on V for alpha and its finite
+slices, not on the whole Calkin map. Only block elements j(P) enter the
+cut. The nonseparable standard-form H_N is never identified with H_*.
+
+APPENDIX A. THE SCOPE OF BLOCK-IDEAL ANNIHILATION
+
+For this infinite source, trace convergence forces d_l->infinity:
+for any m distinct group elements, their model matrices have normalized
+Hilbert-Schmidt Gram tending to I_m, hence rank m<=d_l^2 eventually.
+Adding one trivial representation to each model therefore preserves the
+trace limit, since its weight is1/(d_l+1). The same trace-kernel proof
+then supplies a faithful sigma_C for the augmented models. The added
+block projection p belongs to the new trace ideal I but is not compact:
+it fixes infinitely many orthonormal added vectors and has essential
+norm1. Applying Section 3.6 for these very models supplies the same simultaneous
+moment/all-I statement used by Section 4.4. No extra dimension assumption is needed.
+
+In any Stinespring T_v(a)=W*nu(a)W, the guaranteed annihilation subspace is
+ K_block=closure span nu(j(P))W H_N.
+For i in I and b in P, ib in I and T_v(j((ib)*(ib)))=0 give
+nu(j(i))nu(j(b))W=0. With a commuting left action rho this also holds
+on closure span rho(V)nu(j(P))WH_N. This is not the whole Q_c-generated
+space. Indeed choose an isometry S of H_c onto the infinite added
+subspace, z=q_c(S), pbar=j(p). Then
+ z*z=1, zz*=pbar, z*pbar z=1,
+ T_v(pbar)=0, but T_v(z*pbar z)=1.
+Thus full-dilation annihilation is false and unused. Section 4.4 needs
+only cbc-b in I for b in P. It uses its actual exactness-selected cut;
+replacing that cut by the diagnostic p alone would not establish
+||u||min<7/8.
+This control makes the logical boundary explicit, without assuming
+multiplicativity, normality or surjectivity of the whole-Q return.
+
+REFERENCES
+
+[1] E. Kirchberg, The Fubini theorem for exact C*-algebras, Journal of
+    Operator Theory 10 (1983),3-8, Theorem 1.1(ii),(iii), p4; countable
+    Hilbert-space convention p3.
+    https://jot.theta.ro/jot/archive/1983-010-001/1983-010-001-001.pdf
+[2] M. D. Choi and E. G. Effros, Nuclear C*-algebras and injectivity:
+    the general case, Indiana University Mathematics Journal 26 (1977),
+    443-446. DOI:10.1512/iumj.1977.26.26034. Adopted standard theorem.
+[3] U. Haagerup, Injectivity and decomposition of completely bounded
+    maps, Lecture Notes in Mathematics 1132 (1985),170-222, Lemma 2.2 p186;
+    conjugate-algebra convention pp185-186.
+[4] U. Haagerup, The standard form of von Neumann algebras, Mathematica
+    Scandinavica 37 (1975),271-283, Theorem 1.6 p275 and Lemma 2.10 pp278-279.
+    DOI:10.7146/math.scand.a-11606.
+[5] M. Takesaki, Duality for crossed products and the structure of
+    von Neumann algebras of type III, Acta Mathematica 131 (1973),
+    249-310. DOI:10.1007/BF02392041. The double-duality theorem is
+    adopted with the scope stated in(C).
+[6] U. Haagerup, M. Junge and Q. Xu, A reduction method for noncommutative
+    Lp-spaces and applications, arXiv:0806.3635v2(2009), section 1.1 p3
+    and section 1.2 p5 immediately before(1.10): the modular crossed
+    product has a normal semifinite faithful trace.
+
