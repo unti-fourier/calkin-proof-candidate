@@ -3,7 +3,6 @@
 **これは未査読の証明案であり、正しさはまだ確認されていません。著者自身も、今後時間をかけて手作業で検証する予定です。自動検査で具体的な不備が見つからなかったとしても、証明の正しさが確認されたことにはなりません。**
 
 **Hikaru Awazu（粟津 光）**  
-Assistant Professor, National Institute of Technology, Hakodate College  
 連絡先: [huhihikaru@gmail.com](mailto:huhihikaru@gmail.com)
 
 本証明案は GPT-6 によって生成されました。Hikaru Awazu（粟津 光）による手作業の検証は、今後時間をかけて行う予定です。
