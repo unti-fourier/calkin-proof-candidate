@@ -13,6 +13,9 @@ Calkin test conjecture に関心のある方に向けて、研究の概要と証
 
 - [証明案の全文（V80、プレーンテキスト）](manuscript/calkin-test-candidate.txt)
 - [検証状況と数学補足の位置づけ](VERIFICATION_STATUS.md)
+- [Zenodo公開版（論文PDF・TeX、DOI: 10.5281/zenodo.24362321）](https://doi.org/10.5281/zenodo.24362321)
+
+最新版と更新履歴は、このGitHubリポジトリを参照してください。ZenodoやarXivの公開資料には、古い版が残っている可能性があります。
 
 ## 問題と証明を目指す主張
 
