@@ -1,29 +1,15 @@
 # 検証状況 / Verification status
 
-**未査読・未認定の証明案です。Hikaru Awazu（粟津 光）本人が今後、人力で検証予定ですが、検証には時間を要します。**
+## 改訂版：自由群の語長を用いる証明
 
-Lean formalization is in progress; no complete formal verification is claimed.
+[PDF](docs/The_Calkin_Algebra_as_a_Test_for_Nuclearity_public.pdf)・[LaTeX](docs/The_Calkin_Algebra_as_a_Test_for_Nuclearity_public.tex)
 
-## 公開本文と数学補足
+- 書面証明：固定した Calkin 代数から exactness と LLP を得る部分、左側が正常なテンソル積テストへの移送、finite な von Neumann 環への帰着、自由群の語長による減衰と最小ノルム計算を記載しています。改訂した論証を別々の AI による書面検算で確認しました。
+- 査読・人による検証：査読は受けていません。AI による検算は人による独立した査読ではありません。
+- 改訂版の Lean：形式化を開始しましたが、改訂版全体の形式検証は完了していません。
 
-公開全文の数学部分は V80 です。冒頭の本人情報・検証状況の注記を除き、保存された V80 の内容を変更していません。V80 は G、E/HS、M、D と最終接続を一つに収めた証明候補です。
+## 旧版：V80
 
-- **V81 の位置づけ**：原問題の定式化、非単位的な場合、標準定理の適用範囲と文献照合を説明する補足です。
-- **V88 の位置づけ**：正常 UCP 延長についての別の補助論証です。V80 本文で使う延長論証の代わりに検討できるもので、V80 の完成に必要な未提示補題として採用していません。
+[V80 プレーンテキスト](manuscript/calkin-test-candidate.txt)・[旧版の検証記録](https://github.com/unti-fourier/calkin-proof-candidate/blob/73741ad9f671034fd94a8dc827e691b05b9bab69/VERIFICATION_STATUS.md)
 
-この最小公開資料には、V81/V88 の別稿、作業履歴、自動検査生ログを添付していません。現時点の依存関係の対応付けでは、V80 の論証を読むために、これらの別稿から新たな必須仮定を補う箇所は特定されていません。これは V80 の正しさを認定するものではありません。
-
-## 自動検査で対象にした範囲
-
-| 対象 | 検査した内容 |
-| --- | --- |
-| G | 一般の標準的な二重双対から同一の角・有限係数族・正常状態を得る接続。type III の増幅吸収と元の $B^*$ による近似。 |
-| E | 原始ランプの同時分布、共有辺と逆辺、非可換積順序、全語に共通の作用素ノルム $L^2$ 評価。 |
-| M | full/reduced の区別、単一の正常源側延長、有限モデルの忠実な源コピー、同時モーメント回復とブロック ideal の消滅。 |
-| D | 同一状態を用いる Goldstine 選択、同じ元の min/max 評価、exactness 切断、非単位的な場合の正部分の関数計算。 |
-
-これらの自動読解では、採用した標準定理を入力として、具体的な穴や未供給の必須命題を特定できませんでした。検査は原始定義からの再構成、本文読解、差分確認、局所的な反証試行を組み合わせたものです。異なる自動読解でも同じ推論上の盲点を共有し得ます。
-
-有限例の一致、誤った強化への反例、検査回数、ファイルの整合性は、無限次元の全称命題の証明認定を意味しません。標準定理の原典も、すべてを全文再証明・照合したとは主張していません。今後の人力検証と形式化の結果は、現在の自動検査結果と分けて評価する必要があります。
-
-The outcome is **“no specific gap identified by the automated examinations”**, not **“the theorem is proved.”** Independent mathematical assessment remains necessary. In-progress Lean files are not included as completed formal evidence.
+旧版ではランプ群を用いた別の証明を検討しました。旧版の主定理と採用した依存関係を Lean でソースから再ビルドした記録は、旧ルートに固有です。その記録によって、改訂した書面証明が Lean で検証済みになるわけではありません。
